@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>dlif</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="stc/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="stc/css/cyborg_share.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <header class="navbar navbar-static-top bs-docs-nav" id="top" role="banner">
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">dls - Share Mode - Time left: {{ settings.timeleft }}</a>
+          </div>
+          <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <div class="container">
+      <div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th><a href="?s=f{% if sort == 'f' and rev %}r{% endif %}&p={{ settings.path }}&{{ settings.secargs }}">File Name</a>{% if sort == 'f' %}&nbsp;<a href="?s=f{% if sort == 'f' and rev %}r{% endif %}&p={{ settings.path }}&{{ settings.secargs }}"><span class="glyphicon glyphicon-sort-by-alphabet{% if not rev %}-alt{% endif %}"></span></a>{% endif %}</th>
+              <th><a href="?s=d{% if sort == 'd' and rev %}r{% endif %}&p={{ settings.path }}&{{ settings.secargs }}">Date</a>{% if sort == 'd' %}&nbsp;<a href="?s=d{% if sort == 'd' and rev %}r{% endif %}&p={{ settings.path }}&{{ settings.secargs }}"><span class="glyphicon glyphicon-sort-by-order{% if not rev %}-alt{% endif %}"></span></a>{% endif %}</th>
+              <th><a href="?s=s{% if sort == 's' and rev %}r{% endif %}&p={{ settings.path }}&{{ settings.secargs }}">Size</a>{% if sort == 's' %}&nbsp;<a href="?s=s{% if sort == 's' and rev %}r{% endif %}&p={{ settings.path }}&{{ settings.secargs }}"><span class="glyphicon glyphicon-sort-by-order{% if not rev %}-alt{% endif %}"></span></a>{% endif %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in flst %}
+            <tr>
+              <td><a href="{%
+  if not item.dir
+    %}/s{{ item.url }}?{%
+  else
+    %}/i/?s={{ settings.sort }}&p={{ item.url }}&{%
+  endif %}{{ item.share_arg }}">{{ item.name }}</a>
+              </td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.size }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div><!-- /.container -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="stc/js/jquery.min.js"></script>
+    <script src="stc/js/bootstrap.min.js"></script>
+  </body>
+</html>
