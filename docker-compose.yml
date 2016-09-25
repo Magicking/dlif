@@ -1,0 +1,6 @@
+version: '2'
+services:
+  dlif:
+    build: .
+    ports:
+      - "6543"
