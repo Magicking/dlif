@@ -62,7 +62,8 @@ class Root:
         lst = []
         dir_name = cherrypy.request.app.config['dlif']['dir_name']
         time_limit = int(cherrypy.request.app.config['dlif']['time_limit'])
-        secret = cherrypy.request.app.config['dlif']['secret']
+        token = ''
+        _secret = cherrypy.request.app.config['dlif']['secret']
         
         p = os.path.normpath(p).lstrip('/')
         abs_path = os.path.normpath(os.path.join(dir_name, p))
@@ -75,14 +76,13 @@ class Root:
 
           if share:
             offset = kwargs['pt']
-            secret = kwargs['st']
+            token = kwargs['st']
             ttl = kwargs['e']
           else:
-            offset, secret, ttl = gen_secret('/'+pathname2url(data['url']),
-                                                 secret, timestamp)
-          data['share_arg'] = args_for(pt=offset,st=secret,e=ttl)
+            offset, token, ttl = gen_secret('/'+pathname2url(data['url']),
+                                                 _secret, timestamp)
+          data['share_arg'] = args_for(pt=offset,st=token,e=ttl)
           data['share'] = share
-          print(share)
           if not share or get_path_offset('/'+pathname2url(data['url'])) > int(offset):
             lst.append(data)
         else:
@@ -105,12 +105,12 @@ class Root:
                   'dir': isdir}
           if share and isdir:
             offset = kwargs['pt']
-            secret = kwargs['st']
+            token = kwargs['st']
             ttl = kwargs['e']
           else:
-            offset, secret, ttl = gen_secret(p + '/' + name,
-                                            secret, timestamp)
-          data['share_arg'] = args_for(pt=offset,st=secret,e=ttl)
+            offset, token, ttl = gen_secret(p + '/' + name,
+                                            _secret, timestamp)
+          data['share_arg'] = args_for(pt=offset,st=token,e=ttl)
           data['share'] = True
           lst.append(data)
         sets = {'sort': s, 'path': pathname2url(p) }
@@ -132,7 +132,6 @@ class Root:
           secret = cherrypy.request.app.config['dlif']['secret']
 
           pt, st, ttl = gen_secret(_p, secret, _e, _pt)
-          print((_p, pt, st, ttl))
           if pt < _pt or _st != st or ttl != _e or _e < int(time()):
             raise Exception()
         except:
